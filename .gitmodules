@@ -1,0 +1,3 @@
+[submodule "AUDIO SD CARD/ESP_MY_SD"]
+	path = AUDIO SD CARD/ESP_MY_SD
+	url = https://github.com/Thienbt92/ESP_MY_SD.git
