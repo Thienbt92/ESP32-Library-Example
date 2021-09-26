@@ -4,5 +4,6 @@
 #include <Arduino.h>
 #include "SPI.h"
 #include <t3c_sd.h>
+#include <musicPlayer.h>
 
 #endif

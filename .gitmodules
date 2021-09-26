@@ -5,3 +5,6 @@
 [submodule "AUDIO SD CARD/lib/SD_Card"]
 	path = AUDIO SD CARD/lib/SD_Card
 	url = https://github.com/Thienbt92/SD_Card.git
+[submodule "AUDIO SD CARD/lib/ESP32_DAC_PLAYER"]
+	path = AUDIO SD CARD/lib/ESP32_DAC_PLAYER
+	url = https://github.com/Thienbt92/ESP32_DAC_PLAYER.git
