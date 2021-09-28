@@ -2,21 +2,23 @@
 
 mSD_Class SDcard;
 File fil;
+File root;
 WAV_Class WAV;
+String _pathFile="",_pathFileOld="";
 
 uint8_t buffer_Read[2048];
-uint32_t  Index_read = 0,Count_Read=0,_pointer=0,_size_read=0;
-bool Flag_Ok=false,Start=false;
+String List_WAV[10];
+uint32_t  Index_read = 0,Count_Read=0,_size_read=0,Count_playList=1;
+bool Flag_Ok=false,First_Read=false,Start_Run=false;
 uint8_t Led_stt=0;
 
 void Read_Data()
 {
-  bool _state = SDcard.mSD_seek(&fil,Index_read,SeekSet);
-  //Serial.println(_state);
-  if(Start==false)
+  SDcard.mSD_seek(&fil,Index_read,SeekSet);
+  if(First_Read==false)
   {
     _size_read = 2048;
-    Start = true;
+    First_Read = true;
   }
   else
     _size_read = 1024;
@@ -47,48 +49,58 @@ void setup()
     Serial.println("Card Mount Failed");
     return;
   }
-  SDcard.mSD_open(&fil,"/chan ai.wav",FILE_READ);
-  if(SDcard.mSD_read(&fil,buffer_Read,WAV.WAV_getSizeHeader())!=0)
-  {
-    if(WAV.WAV_Init(buffer_Read,WAV.WAV_getSizeHeader())==true)
-    {
-      Index_read = WAV.WAV_getSizeHeader();
-      Flag_Ok = true;
-    }
-  }
-  //SDcard.mSD_close(&fil);
+  Start_Run=true;
+  WAV.WAV_Init();
   WAV.DAC_Audio_Init(25,0,&WAV);
-
+  // Lấy địa chỉ file WAV
+  //while(strcmp(_pathFile==_pathFileOld)
+  {
+    SDcard.mSD_listFile(&root,"/",&_pathFile);
+  }
+  Serial.println(_pathFile[0]);
 }
 
-void loop() {
-
-  if(WAV.Completed==true)
+void loop() 
+{
+/*   if(Start_Run==true)
   {
-    WAV.DAC_playWav(&WAV);
-    Read_Data();
-/*     for(int i=0;i<32;i++)
+    SDcard.mSD_open(&fil,SDcard.List_File.pathFile[Count_playList],FILE_READ);
+    Serial.println(SDcard.List_File.pathFile[Count_playList]);
+    if(SDcard.mSD_read(&fil,buffer_Read,WAV.WAV_getSizeHeader())!=0)
     {
-      for(int j=0;j<16;j++)
+      if(WAV.WAV_UpdateHeader(buffer_Read,WAV.WAV_getSizeHeader())==true)
       {
-        Serial.print(WAV.Buffer_Main[(i*16)+j],HEX);
-        Serial.print(' ');
+        Index_read = WAV.WAV_getSizeHeader();
+        Serial.println(WAV.WAV_getSizeData());
+        Flag_Ok = true;
+        Start_Run = false;
       }
-      Serial.println(" ");
-    } */
-  }
-
-  if(Flag_Ok==true)
-  {
-    if(WAV.WAV_GetflagUpdate()==true)
-    {
-      Read_Data();
-      WAV.WAV_ClearflagUpdate(false);
-      if(_pointer==0)
-        _pointer = 1024;
-      if(_pointer==1024)
-        _pointer = 0;
     }
   }
+  if(WAV.WAV_Playing==false)
+  {
+    WAV.DAC_playWav(&WAV,true);
+    Read_Data();
+  }
+  else
+  {
+    if(Flag_Ok==true)
+    {
+      if(WAV.WAV_GetflagUpdate()==true)
+      {
+        Read_Data();
+        WAV.WAV_ClearflagUpdate(false);
+      }
+    }
+  }
+  if(WAV.Play_Finish==true)
+  {
+    
+    WAV.Play_Finish=false;
+    SDcard.mSD_close(&fil);
+    Start_Run = true;
+    if(++Count_playList>=SDcard.List_File.NumberFile)
+      Count_playList = 0;
+  }  */
   // put your main code here, to run repeatedly:
 }
