@@ -5,5 +5,6 @@
 #include "SPI.h"
 #include <t3c_sd.h>
 #include <musicPlayer.h>
+#include <string_process.h>
 
 #endif
