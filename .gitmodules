@@ -8,3 +8,6 @@
 [submodule "AUDIO SD CARD/lib/ESP32_DAC_PLAYER"]
 	path = AUDIO SD CARD/lib/ESP32_DAC_PLAYER
 	url = https://github.com/Thienbt92/ESP32_DAC_PLAYER.git
+[submodule "SPI DMA LED/SPI DMA LED/lib/ESP32_DMA_SPI"]
+	path = SPI DMA LED/SPI DMA LED/lib/ESP32_DMA_SPI
+	url = https://github.com/Thienbt92/ESP32_DMA_SPI.git
